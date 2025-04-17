@@ -2,4 +2,4 @@ streamlit
 chromadb
 mistralai
 pysqlite3-binary
-
+sentence_transformers
