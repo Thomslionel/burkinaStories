@@ -1,3 +1,4 @@
 streamlit
 chromadb
 mistralai
+pysqlite3-binary
