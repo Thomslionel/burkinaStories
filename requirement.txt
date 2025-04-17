@@ -1,6 +1,0 @@
-streamlit
-chromadb
-mistralai
-os
-dotenv
-html
