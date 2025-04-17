@@ -1,3 +1,15 @@
+# Patch sqlite3 before any other import
+import sys
+import importlib
+
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
+sys.modules["sqlite3.dbapi2"] = pysqlite3.dbapi2
+
+# Re-import sqlite3 just in case
+importlib.import_module("sqlite3")
+
+
 import streamlit as st
 # import os
 import html
