@@ -150,13 +150,27 @@ if submit_button:
                 # Affichage stylisé
                 with st.container():
                     st.markdown(f"""
+    <style>
+        .story-container {{
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }}
+        .story-container h3 {{
+            color: #2c5f2d !important;
+        }}
+    </style>
+
     <div class="story-container">
-        <h3 style='color: #2c5f2d; margin-bottom: 1rem;'>{titre}</h3>
-        <div style='line-height: 1.6; font-size: 1.1em; color: #222;'>
+        <h3>{titre}</h3>
+        <div style='line-height: 1.6; font-size: 1.1em;'>
             {histoire_html}
         </div>
     </div>
     """, unsafe_allow_html=True)
+
                     
                     # Actions utilisateur
                     col1, col2, col3 = st.columns([2, 3, 2])
