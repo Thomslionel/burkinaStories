@@ -35,7 +35,7 @@ Ce projet est une application interactive qui utilise l'intelligence artificiell
 
     Créez un fichier .env à la racine du projet.
     Ajoutez votre clé API Mistral :
-    
+
      ```bash
     MISTRAL_API_KEY=your_api_key_here
 
@@ -51,11 +51,11 @@ L'application sera accessible à l'adresse : http://localhost:8501
 
 
 
-Utilisation 🖋️
-    1. Fournissez un titre pour votre histoire dans le formulaire.
-    2. Cliquez sur le bouton Générer.
-    3. L'application recherchera des références culturelles dans la base de données et générera une histoire.
-    4. Téléchargez l'histoire générée si vous le souhaitez.
+## Utilisation 🖋️
+1. Fournissez un titre pour votre histoire dans le formulaire.
+2. Cliquez sur le bouton Générer.
+3. L'application recherchera des références culturelles dans la base de données et générera une histoire.
+ 4. Téléchargez l'histoire générée si vous le souhaitez.
 
 
 Technologies utilisées 🛠️
@@ -65,7 +65,7 @@ Technologies utilisées 🛠️
     Python : Langage principal du projet.
 
 
-À propos de CITADEL 🌍
+## À propos de CITADEL 🌍
     Ce projet a été développé par CITADEL dans le but de préserver et promouvoir le patrimoine culturel burkinabè à travers la technologie.
 
-"Préservons notre patrimoine culturel par la technologie."
+## "Préservons notre patrimoine culturel par la technologie."
