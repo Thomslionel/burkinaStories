@@ -28,13 +28,15 @@ Ce projet est une application interactive qui utilise l'intelligence artificiell
    cd burkina_stories
 
 2. Installez les dépendances :
-
+    ```bash
     pip install -r requirements.txt
 
 3. Configurez les variables d'environnement :
 
     Créez un fichier .env à la racine du projet.
     Ajoutez votre clé API Mistral :
+    
+     ```bash
     MISTRAL_API_KEY=your_api_key_here
 
 4. Assurez-vous que le répertoire chromadb_storage/ est accessible pour le stockage persistant.
