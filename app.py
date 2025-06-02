@@ -2,7 +2,8 @@
 import sys
 import importlib
 
-import pysqlite3
+import pysqlite3_binary as pysqlite3
+
 sys.modules["sqlite3"] = pysqlite3
 sys.modules["sqlite3.dbapi2"] = pysqlite3.dbapi2
 
@@ -169,6 +170,10 @@ if submit_button:
                     }]
                 )
                 histoire = response.choices[0].message.content
+                
+
+                # 📝 Sauvegarde automatique dans Google Sheets
+                save_to_google_sheets(titre, histoire)
                 
                 # Conversion et sécurisation du contenu
                 histoire_safe = html.escape(histoire)
