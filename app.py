@@ -6,6 +6,10 @@ import pysqlite3
 sys.modules["sqlite3"] = pysqlite3
 sys.modules["sqlite3.dbapi2"] = pysqlite3.dbapi2
 
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime
+
 # Re-import sqlite3 just in case
 importlib.import_module("sqlite3")
 
@@ -30,6 +34,9 @@ st.set_page_config(
 # load_dotenv()
 MISTRAL_API_KEY = st.secrets["MISTRAL_API_KEY"]
 
+
+
+
 # Initialisation des modèles et bases
 @st.cache_resource
 def load_resources():
@@ -45,6 +52,26 @@ def load_resources():
     return collection, client
 
 collection, client = load_resources()
+
+
+# Fonction de sauvegarde dans Google Sheets
+def save_to_google_sheets(titre, histoire):
+    
+
+    titre = re.sub(r"[#*]", "", titre).strip()
+    histoire = re.sub(r"[#*]", "", histoire).strip()
+
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name("C:\\Users\\USER\\Downloads\\translatedatatset-b28f0a62c415.json", scope)
+    client = gspread.authorize(creds)
+
+    try:
+        sheet = client.open("Recueil de Contes").sheet1
+    except gspread.exceptions.SpreadsheetNotFound:
+        sheet = client.create("Recueil de Contes").sheet1
+
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    sheet.append_row([titre, histoire, now])
 
 # Style personnalisé
 st.markdown("""

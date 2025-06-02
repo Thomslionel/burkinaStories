@@ -1,5 +1,7 @@
 streamlit
 chromadb
 mistralai
-pysqlite3-binary
+# pysqlite3-binary
 sentence_transformers
+gspread
+oauth2client
