@@ -1,6 +1,7 @@
 # Patch sqlite3 before any other import
 import sys
 import importlib
+import re
 
 import pysqlite3
 
