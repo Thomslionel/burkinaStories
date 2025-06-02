@@ -2,7 +2,7 @@
 import sys
 import importlib
 
-import pysqlite3_binary as pysqlite3
+import pysqlite3
 
 sys.modules["sqlite3"] = pysqlite3
 sys.modules["sqlite3.dbapi2"] = pysqlite3.dbapi2
