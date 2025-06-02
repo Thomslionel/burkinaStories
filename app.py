@@ -64,7 +64,7 @@ def save_to_google_sheets(titre, histoire):
     histoire = re.sub(r"[#*]", "", histoire).strip()
 
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name("GOOGLE_CREDANTIALS", scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name(st.secrets["GOOGLE_CREDANTIALS"], scope)
     client = gspread.authorize(creds)
 
     try:
