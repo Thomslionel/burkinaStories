@@ -68,11 +68,11 @@ def save_to_google_sheets(titre, histoire):
     
 
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["GOOGLE_CREDANTIALS"], scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["GOOGLE_CREDANTIALSx"], scope)
 
     client = gspread.authorize(creds)
 
-    st.write("After Sheet_0")
+    
 
     try:
         sheet = client.open("Recueil de Contes").sheet1
