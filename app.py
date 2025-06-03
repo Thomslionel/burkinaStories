@@ -87,8 +87,7 @@ def save_to_google_sheets(titre, histoire):
     sheet.append_row([titre, histoire, now])
 
     
-    st.write("Response type:", type(histoire))
-    st.write("Response content:", histoire)
+
 
 # Style personnalisé
 st.markdown("""
