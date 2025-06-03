@@ -174,6 +174,10 @@ if submit_button:
                     }]
                 )
                 histoire = response.choices[0].message.content
+
+                st.write("Response type:", type(histoire))
+                st.write("Response content:", histoire)
+
                 
 
                 # 📝 Sauvegarde automatique dans Google Sheets
