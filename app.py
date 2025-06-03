@@ -25,6 +25,7 @@ import html
 import chromadb
 from chromadb.utils import embedding_functions
 from mistralai import Mistral
+import json
 
 # Configuration de la page
 st.set_page_config(
