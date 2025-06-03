@@ -72,6 +72,8 @@ def save_to_google_sheets(titre, histoire):
 
     client = gspread.authorize(creds)
 
+    st.write("After Sheet_0")
+
     try:
         sheet = client.open("Recueil de Contes").sheet1
     except gspread.exceptions.SpreadsheetNotFound:
@@ -80,7 +82,7 @@ def save_to_google_sheets(titre, histoire):
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     sheet.append_row([titre, histoire, now])
 
-    st.write("After Sheet")
+    
     st.write("Response type:", type(histoire))
     st.write("Response content:", histoire)
 
