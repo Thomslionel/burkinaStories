@@ -65,6 +65,9 @@ def save_to_google_sheets(titre, histoire):
     titre = re.sub(r"[#*]", "", titre).strip()
     histoire = re.sub(r"[#*]", "", histoire).strip()
 
+    st.write("Response type:", type(histoire))
+    st.write("Response content:", histoire)
+
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["GOOGLE_CREDANTIALS"], scope)
 
@@ -175,8 +178,7 @@ if submit_button:
                 )
                 histoire = response.choices[0].message.content
 
-                st.write("Response type:", type(histoire))
-                st.write("Response content:", histoire)
+                
 
                 
 
