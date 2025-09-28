@@ -176,13 +176,24 @@ if submit_button:
             try:
                 response = client.chat.complete(
                     model="mistral-large-latest",
-                    messages=[{
-                        "role": "system",
-                        "content": f"""Créez un conte burkinabè court et captivant. Style: humoristique, rythmé avec morale finale.
-                            Titre: {titre}
-                            Contexte: {relevant_chunks}
-                            Inclure: Proverbes locaux, noms de lieux réels, éléments culturels"""
-                    }]
+                   messages = [
+    {
+        "role": "system",
+        "content": f"""
+        Crée un conte burkinabè court, captivant et humoristique, avec une morale claire qui encourage le travail, la patience et la sagesse.
+        Titre: {titre}
+        Contexte: {relevant_chunks}
+        Instructions:
+        - Le personnage principal doit apprendre une leçon positive par ses expériences.
+        - Inclure des proverbes locaux et noms de lieux réels au Burkina Faso.
+        - Ajouter des éléments culturels authentiques : nourriture locale, animaux symboliques, métiers traditionnels.
+        - Éviter que le personnage réussisse par magie ou chance seule.
+        - Style: rythmé, drôle qui illustre la morale.
+        - Terminer par une morale explicite qui incite à l’effort, la prudence ou la patience.
+        """
+    }
+]
+
                 )
                 histoire = response.choices[0].message.content
 
