@@ -15,13 +15,8 @@ from datetime import datetime
 # Re-import sqlite3 just in case
 importlib.import_module("sqlite3")
 
-
-
-
 import streamlit as st
-# import os
 import html
-# from dotenv import load_dotenv
 import chromadb
 from chromadb.utils import embedding_functions
 from mistralai import Mistral
@@ -36,47 +31,42 @@ st.set_page_config(
 )
 
 # Chargement des variables d'environnement
-# load_dotenv()
 MISTRAL_API_KEY = st.secrets["MISTRAL_API_KEY"]
-
-
-
 
 # Initialisation des modèles et bases
 @st.cache_resource
 def load_resources():
-    # embed_model = embedding_functions.SentenceTransformerEmbeddingFunction(
-    #     model_name="all-MiniLM-L6-v2"
-    # )
     chroma_client = chromadb.PersistentClient(path="chromadb_storage")
     collection = chroma_client.get_collection(
-        name="stories", 
-        # embedding_function=embed_model
+        name="stories"
     )
     client = Mistral(api_key=MISTRAL_API_KEY)
     return collection, client
 
 collection, client = load_resources()
 
+# Fonction pour nettoyer le texte généré
+def clean_generated_text(text: str) -> str:
+    """
+    Supprime les astérisques, tirets, doubles espaces, retours à la ligne superflus
+    et tout autre caractère de formatage Markdown.
+    """
+    text = re.sub(r"[#*]", "", text)       # Supprime # et *
+    text = re.sub(r"[-–—]", "", text)      # Supprime tirets
+    text = re.sub(r"\s+\n", "\n", text)    # Supprime les espaces avant les sauts de ligne
+    text = re.sub(r"\n{2,}", "\n\n", text) # Limite les doubles sauts de ligne
+    text = text.strip()
+    return text
 
 # Fonction de sauvegarde dans Google Sheets
 def save_to_google_sheets(titre, histoire):
-    
+    titre = clean_generated_text(titre)
+    histoire = clean_generated_text(histoire)
 
-    titre = re.sub(r"[#*]", "", titre).strip()
-    histoire = re.sub(r"[#*]", "", histoire).strip()
-
-
-    # Correction ici
     creds_dict = json.loads(st.secrets["GOOGLE_CREDANTIALS"])
-    
-
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-
     client = gspread.authorize(creds)
-
-    
 
     try:
         sheet = client.open("Recueil de Contes").sheet1
@@ -86,48 +76,15 @@ def save_to_google_sheets(titre, histoire):
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     sheet.append_row([titre, histoire, now])
 
-    
-
-
 # Style personnalisé
 st.markdown("""
     <style>
-    .main-title {
-        color: #2c5f2d;
-        font-size: 2.8em;
-        text-align: center;
-        font-family: 'Georgia', serif;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        margin-bottom: 0.5em;
-    }
-    .story-container {
-        background: #f8f5f0;
-        border-radius: 15px;
-        padding: 2rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        border-left: 4px solid #2c5f2d;
-    }
-    .input-box {
-        background: #fff;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .footer {
-        text-align: center;
-        padding: 1.5rem;
-        color: #666;
-        margin-top: 2rem;
-    }
-    .logo-img {
-        max-width: 120px;
-        margin: 1rem auto;
-    }
-    .vertical-spacer {
-        height: 27px;
-        visibility: hidden;
-    }
+    .main-title { color: #2c5f2d; font-size: 2.8em; text-align: center; font-family: 'Georgia', serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin-bottom: 0.5em; }
+    .story-container { background: #f8f5f0; border-radius: 15px; padding: 2rem; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); border-left: 4px solid #2c5f2d; }
+    .input-box { background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .footer { text-align: center; padding: 1.5rem; color: #666; margin-top: 2rem; }
+    .logo-img { max-width: 120px; margin: 1rem auto; }
+    .vertical-spacer { height: 27px; visibility: hidden; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -178,25 +135,28 @@ if submit_button:
                     model="mistral-large-latest",
                     messages=[{
                         "role": "system",
-                        "content": f"""Créez un conte burkinabè court et captivant en prose fluide. Le style doit être humoristique et rythmé. La leçon morale doit se dégager naturellement de l’histoire sans être nommée explicitement. Écrivez le texte en un seul bloc narratif continu, sans listes, sans tirets et sans astérisques de formatage. Incluez des proverbes locaux, des noms de lieux réels et d’autres éléments culturels authentiques du Burkina Faso.  
-                            Titre : {titre}  
-                            Contexte : {relevant_chunks}
-                        """
+                        "content": f"""Créez un conte burkinabè court et captivant en prose fluide. 
+Le style doit être humoristique et rythmé. La leçon morale doit se dégager naturellement de l’histoire. 
+Écrivez le texte en un seul bloc narratif continu, sans listes, sans tirets et sans astérisques. 
+Incluez des proverbes locaux, des noms de lieux réels et d’autres éléments culturels authentiques du Burkina Faso.  
+
+Titre : {titre}  
+Contexte : {relevant_chunks}
+"""
                     }]
                 )
                 histoire = response.choices[0].message.content
 
-                
+                # Nettoyage du texte
+                histoire = clean_generated_text(histoire)
 
-                
-
-                # 📝 Sauvegarde automatique dans Google Sheets
+                # Sauvegarde
                 save_to_google_sheets(titre, histoire)
                 
-                # Conversion et sécurisation du contenu
+                # Conversion et sécurisation pour l'affichage
                 histoire_safe = html.escape(histoire)
                 histoire_html = histoire_safe.replace("\n", "<br>")
-                
+
                 # Affichage stylisé
                 with st.container():
                     st.markdown(f"""
@@ -221,7 +181,6 @@ if submit_button:
     </div>
     """, unsafe_allow_html=True)
 
-                    
                     # Actions utilisateur
                     col1, col2, col3 = st.columns([2, 3, 2])
                     with col2:
