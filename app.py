@@ -178,10 +178,10 @@ if submit_button:
                     model="mistral-large-latest",
                     messages=[{
                         "role": "system",
-                        "content": f"""Créez un conte burkinabè court et captivant. Style: humoristique, rythmé avec morale finale.
-                            Titre: {titre}
-                            Contexte: {relevant_chunks}
-                            Inclure: Proverbes locaux, noms de lieux réels, éléments culturels"""
+                        "content": f"""Créez un conte burkinabè court et captivant en prose fluide. Le style doit être humoristique et rythmé. La leçon morale doit se dégager naturellement de l’histoire sans être nommée explicitement. Écrivez le texte en un seul bloc narratif continu, sans listes, sans tirets et sans astérisques de formatage. Incluez des proverbes locaux, des noms de lieux réels et d’autres éléments culturels authentiques du Burkina Faso.  
+                            Titre : {titre}  
+                            Contexte : {relevant_chunks}
+                        """
                     }]
                 )
                 histoire = response.choices[0].message.content
