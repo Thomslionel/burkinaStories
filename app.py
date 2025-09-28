@@ -180,16 +180,18 @@ if submit_button:
     {
         "role": "system",
         "content": f"""
-        Crée un conte burkinabè court, captivant et humoristique, avec une morale claire qui encourage le travail, la patience et la sagesse.
-        Titre: {titre}
-        Contexte: {relevant_chunks}
-        Instructions:
-        - Le personnage principal doit apprendre une leçon positive par ses expériences.
-        - Inclure des proverbes locaux et noms de lieux réels au Burkina Faso.
-        - Ajouter des éléments culturels authentiques : nourriture locale, animaux symboliques, métiers traditionnels.
-        - Éviter que le personnage réussisse par magie ou chance seule.
-        - Style: rythmé, drôle qui illustre la morale.
-        - Terminer par une morale explicite qui incite à l’effort, la prudence ou la patience.
+       Crée un conte burkinabè court, captivant et humoristique, avec une morale claire qui encourage le travail, la patience et la sagesse.
+Titre : {titre}
+Contexte : {relevant_chunks}
+Instructions :
+- Le personnage principal doit apprendre une leçon positive grâce à ses expériences.
+- Inclure des proverbes locaux et des noms de lieux réels au Burkina Faso.
+- Ajouter des éléments culturels authentiques : nourriture locale, animaux symboliques, métiers traditionnels, etc.
+- La narration doit être continue et fluide : éviter l’usage d’astérisques (*) ou de tirets (-) pour le formatage du texte (ne pas présenter le récit sous forme de liste ou de paragraphe énuméré).
+- Éviter que le personnage réussisse uniquement par magie ou par simple chance.
+- Style : rythmé, drôle et vivant, illustrant clairement la morale.
+- Terminer par une morale explicite incitant à l’effort, à la patience ou à la sagesse.
+
         """
     }
 ]
