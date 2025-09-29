@@ -89,7 +89,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Entête
-st.markdown("<h1 class='main-title'>📜 Conteur Numérique du Burkina</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='main-title'>📜 Burkin' Soalma (Conteur Numérique du Burkina)</h1>", unsafe_allow_html=True)
 
 # Section principale
 with st.container():
@@ -207,7 +207,6 @@ with st.expander("ℹ️ À propos de cette application"):
     **Conseils d'utilisation :**
     1. Utilisez des titres évocateurs
     2. Incorporez des éléments locaux dans vos suggestions
-    3. Personnalisez les résultats avec des détails spécifiques
     """)
 
 # Pied de page
