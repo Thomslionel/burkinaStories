@@ -49,14 +49,32 @@ collection, client = load_resources()
 def clean_generated_text(text: str) -> str:
     """
     Supprime les astérisques, tirets, doubles espaces, retours à la ligne superflus
-    et tout autre caractère de formatage Markdown.
+    et corrige les mots collés.
     """
-    text = re.sub(r"[#*]", "", text)       # Supprime # et *
-    text = re.sub(r"[-–—]", "", text)      # Supprime tirets
-    text = re.sub(r"\s+\n", "\n", text)    # Supprime les espaces avant les sauts de ligne
-    text = re.sub(r"\n{2,}", "\n\n", text) # Limite les doubles sauts de ligne
-    text = text.strip()
-    return text
+    # Règles pour les mots fréquemment collés dans les contes burkinabè
+    corrections = {
+        r"l'(\w+)": r"l'\1 ",  # Ajoute un espace après l'apostrophe
+        r"(\w+)là\b": r"\1 là",  # Sépare le suffixe "là"
+        r"(\w+)ci\b": r"\1 ci",  # Sépare le suffixe "ci"
+        r"(\w+)t'il\b": r"\1-t-il",  # Corrige les formes verbales
+        r"(\w+)t'elle\b": r"\1-t-elle",
+        r"(\w+)qu'(\w+)": r"\1 qu'\2",  # Sépare "qu'"
+        r"(\w+)n'(\w+)": r"\1 n'\2",  # Sépare "n'"
+        r"(\w+)d'(\w+)": r"\1 d'\2",  # Sépare "d'"
+    }
+    
+    # Appliquer les corrections
+    for pattern, replacement in corrections.items():
+        text = re.sub(pattern, replacement, text)
+    
+    # Supprimer les caractères de formatage
+    text = re.sub(r"[#*]", "", text)
+    text = re.sub(r"[-–—]", " ", text)  # Remplacer les tirets par des espaces
+    text = re.sub(r"\s+", " ", text)  # Normaliser les espaces
+    text = re.sub(r"\s+\n", "\n", text)
+    text = re.sub(r"\n{2,}", "\n\n", text)
+    
+    return text.strip()
 
 # Fonction de sauvegarde dans Google Sheets
 def save_to_google_sheets(titre, histoire):
