@@ -77,22 +77,22 @@ def clean_generated_text(text: str) -> str:
     return text.strip()
 
 # Fonction de sauvegarde dans Google Sheets
-def save_to_google_sheets(titre, histoire):
-    titre = clean_generated_text(titre)
-    histoire = clean_generated_text(histoire)
+# def save_to_google_sheets(titre, histoire):
+#     titre = clean_generated_text(titre)
+#     histoire = clean_generated_text(histoire)
 
-    creds_dict = json.loads(st.secrets["GOOGLE_CREDANTIALS"])
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-    client = gspread.authorize(creds)
+#     creds_dict = json.loads(st.secrets["GOOGLE_CREDANTIALS"])
+#     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+#     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+#     client = gspread.authorize(creds)
 
-    try:
-        sheet = client.open("Recueil de Contes").sheet1
-    except gspread.exceptions.SpreadsheetNotFound:
-        sheet = client.create("Recueil de Contes").sheet1
+#     try:
+#         sheet = client.open("Recueil de Contes").sheet1
+#     except gspread.exceptions.SpreadsheetNotFound:
+#         sheet = client.create("Recueil de Contes").sheet1
 
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    sheet.append_row([titre, histoire, now])
+#     now = datetime.now().strftime("%Y-%m-%d %H:%M")
+#     sheet.append_row([titre, histoire, now])
 
 # Style personnalisé
 st.markdown("""
@@ -169,7 +169,7 @@ Contexte : {relevant_chunks}
                 histoire = clean_generated_text(histoire)
 
                 # Sauvegarde
-                save_to_google_sheets(titre, histoire)
+                # save_to_google_sheets(titre, histoire)
                 
                 # Conversion et sécurisation pour l'affichage
                 histoire_safe = html.escape(histoire)
